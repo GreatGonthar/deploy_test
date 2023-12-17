@@ -1,27 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>mouse input test</title>
 
-    <style>
-      body {
-        margin: 0;
-      }
+        <link rel="stylesheet" type="text/css" href="./styles.css" />
+    </head>
+    <!-- <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script> -->
 
-      #mute {
-        position: absolute;
-        top: 5px;
-        left: 5px;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="time"></div>
-    <button id="button">click</button>
-    <script src="/socket.io/socket.io.js"></script>
-    <script type="module" src="/index.js"></script>
-  </body>
+    <body>
+        <div class="wrapper">
+            <canvas id="canvas"></canvas>
+        </div>
+    </body>
+
+    <!-- <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.min.js"></script> -->
+    <!-- <script src="./js/consts.js" type="module"></script> -->
+    <script type="module" src="./js/main.js"></script>
 </html>
