@@ -12,7 +12,7 @@ body {
     padding: 0;
     font-family: "Emulogic", sans-serif;
 }
-.wrapper2 {
+.wrapper {
     height: 100%;
     width: 100%;
     display: flex;
@@ -20,9 +20,9 @@ body {
     align-items: center;
     background-color: black;
 }
-#stroke_state {
+.stroke_state {
     font-family: "Emulogic", sans-serif;
-    font-size: 5px;
+    font-size: 10px;
     margin: 5px;    
     color: beige;
 }

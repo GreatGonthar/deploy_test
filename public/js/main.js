@@ -1,4 +1,6 @@
 import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+import { drawAll } from "./draw/drawAll.js";
+import { getFormData } from "./formLogic.js";
 const WIDTH = 340;
 const HEIGHT = 600;
 
@@ -9,39 +11,33 @@ canvas.width = WIDTH;
 canvas.height = HEIGHT;
 canvas.style.background = "silver";
 const ctx = canvas.getContext("2d");
-let ping = 0
-socket.on("create player", (data) => {
-    console.log(data);
+let ping = 0;
+let mapSize = 0;
+
+// let formData = getFormData()
+socket.on("create player", ({players, environment}) => {
+    console.log(environment);
+    mapSize = environment.mapSize
+    getFormData(players, socket);
 });
 
 socket.on("pong", function (data) {
-    ping = Date.now() - data;    
+    ping = Date.now() - data;
 });
-
 
 socket.on("arr players", (players) => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.font = `20px Emulogic`;
-    ctx.fillStyle = "black";
-    ctx.fillText(`ping: ${ping}`, 10, 30);
-    for (let id in players) {
-        let player = players[id];
-        ctx.beginPath();
-        ctx.fillStyle = player.color;
-        ctx.arc(player.x, player.y, 40, 0, Math.PI * 2, true);
-        ctx.closePath();
-        ctx.fill();
-    }
+    drawAll(players, ctx, ping, mapSize, canvas.width, canvas.height);
 });
-setInterval(()=> {socket.emit('ping', Date.now())}, 500)
+setInterval(() => {
+    socket.emit("ping", Date.now());
+}, 500);
 
 canvas.addEventListener("click", (event) => {
     event.preventDefault();
-
     let touchCords = {
         x: event.clientX - canvas.getBoundingClientRect().left,
         y: event.clientY - canvas.getBoundingClientRect().top,
     };
-    
+
     socket.emit("touchCords", touchCords);
 });

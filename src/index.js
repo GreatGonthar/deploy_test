@@ -15,8 +15,14 @@ app.use(express.static("public"));
 const port = process.env.PORT || 3000;
 const WIDTH = 340;
 const HEIGHT = 600;
+let environment = {
+    background: "",
+    dots: 0,
+    mapSize: 0,
+    initialSpeed: 1,
+    FPS: 60
+}
 httpServer.listen(port, () => console.log(`Server listening on port ${port}`));
-
 
 let players = {};
 class Player {
@@ -33,14 +39,23 @@ class Player {
 }
 
 io.on("connection", (socket) => {
-    console.log(`New client connected ${socket.id} players = ${Object.keys(players).length}`);
+    console.log(
+        `New client connected ${socket.id} players = ${
+            Object.keys(players).length
+        }`
+    );
     players[socket.id] = new Player({
         id: socket.id,
         x: Math.floor(Math.random() * WIDTH),
         y: Math.floor(Math.random() * HEIGHT),
         color: getRandomColor(),
     });
-    socket.emit("create player", players[socket.id]);
+    socket.emit("create player", {players, environment});
+
+    socket.on("form data", (formData) => {
+        environment = formData
+        socket.emit("create player", {players, environment});
+    });
 
     socket.on("ping", function (data) {
         socket.emit("pong", data);
@@ -48,7 +63,20 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", () => {
         delete players[socket.id];
-        console.log(`player ${socket.id} disconnected, players = ${Object.keys(players).length}`);
+        console.log(
+            `player ${socket.id} disconnected, players = ${
+                Object.keys(players).length
+            }`
+        );
+        if(Object.keys(players).length === 0){
+            environment = {
+                background: "",
+                dots: 0,
+                mapSize: 0,
+                initialSpeed: 1,
+                FPS: 60
+            }
+        }
     });
 
     socket.on("touchCords", (touchCords) => {
@@ -57,11 +85,10 @@ io.on("connection", (socket) => {
             touchCords.y - players[socket.id].y
         );
         players[socket.id].sin =
-            ((players[socket.id].y - touchCords.y) / myHypot) * 1;
+            ((players[socket.id].y - touchCords.y) / myHypot)* environment.initialSpeed;
         players[socket.id].cos =
-            ((players[socket.id].x - touchCords.x) / myHypot) * 1;
+            ((players[socket.id].x - touchCords.x) / myHypot)* environment.initialSpeed;
     });
-
 });
 setInterval(() => {
     move();
@@ -71,8 +98,8 @@ setInterval(() => {
 function move() {
     for (let id in players) {
         let player = players[id];
-        player.x -= player.cos * 1;
-        player.y -= player.sin * 1;
+        player.x -= player.cos ;
+        player.y -= player.sin ;
 
         if (player.x > WIDTH) {
             player.x = 0;
