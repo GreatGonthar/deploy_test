@@ -20,10 +20,10 @@ body {
     align-items: center;
     background-color: black;
 }
-.stroke_state {
+.navigate-text {
     font-family: "Emulogic", sans-serif;
-    font-size: 10px;
-    margin: 5px;    
+    font-size: 8px;
+    margin: 2px;    
     color: beige;
 }
 

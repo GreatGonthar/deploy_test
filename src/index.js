@@ -22,8 +22,7 @@ let environment = {
     initialSpeed: 1,
     FPS: 60,
 };
-// добавить нумерацию игроков. если environment не задан, а имя игрока - первый, то показывать меню
-// добавить возможность останавливатся на месте клика
+
 httpServer.listen(port, () => console.log(`Server listening on port ${port}`));
 
 let players = {};
@@ -31,12 +30,14 @@ class Player {
     constructor(props) {
         this.id = props.id;
         this.color = props.color;
+        this.r = props.r
         this.x = props.x;
         this.y = props.y;
         this.tx = props.x;
         this.ty = props.y;
         this.sin = 0;
         this.cos = 0;
+        this.velocity = props.velocity
     }
 }
 
@@ -48,14 +49,17 @@ io.on("connection", (socket) => {
     );
     players[socket.id] = new Player({
         id: socket.id,
+        r: 30,
         x: Math.floor(Math.random() * WIDTH),
         y: Math.floor(Math.random() * HEIGHT),
         color: getRandomColor(),
+        velocity: environment.initialSpeed
     });
     socket.emit("create player", { players, environment });
 
     socket.on("form data", (formData) => {
         environment = formData;
+        players[socket.id].velocity = environment.initialSpeed
         socket.emit("create player", { players, environment });
     });
 
@@ -105,7 +109,7 @@ function move() {
     for (let id in players) {
         let player = players[id];
         let myHypot = Math.hypot(player.tx - player.x, player.ty - player.y);
-        if (myHypot > 1) {
+        if (myHypot > 3) {
             player.x -= player.cos;
             player.y -= player.sin;
         }
