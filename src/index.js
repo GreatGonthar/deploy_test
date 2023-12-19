@@ -20,8 +20,10 @@ let environment = {
     dots: 0,
     mapSize: 0,
     initialSpeed: 1,
-    FPS: 60
-}
+    FPS: 60,
+};
+// добавить нумерацию игроков. если environment не задан, а имя игрока - первый, то показывать меню
+// добавить возможность останавливатся на месте клика
 httpServer.listen(port, () => console.log(`Server listening on port ${port}`));
 
 let players = {};
@@ -50,11 +52,11 @@ io.on("connection", (socket) => {
         y: Math.floor(Math.random() * HEIGHT),
         color: getRandomColor(),
     });
-    socket.emit("create player", {players, environment});
+    socket.emit("create player", { players, environment });
 
     socket.on("form data", (formData) => {
-        environment = formData
-        socket.emit("create player", {players, environment});
+        environment = formData;
+        socket.emit("create player", { players, environment });
     });
 
     socket.on("ping", function (data) {
@@ -68,26 +70,30 @@ io.on("connection", (socket) => {
                 Object.keys(players).length
             }`
         );
-        if(Object.keys(players).length === 0){
+        if (Object.keys(players).length === 0) {
             environment = {
                 background: "",
                 dots: 0,
                 mapSize: 0,
                 initialSpeed: 1,
-                FPS: 60
-            }
+                FPS: 60,
+            };
         }
     });
 
     socket.on("touchCords", (touchCords) => {
+        let player = players[socket.id];
         let myHypot = Math.hypot(
-            touchCords.x - players[socket.id].x,
-            touchCords.y - players[socket.id].y
+            touchCords.x - player.x,
+            touchCords.y - player.y
         );
-        players[socket.id].sin =
-            ((players[socket.id].y - touchCords.y) / myHypot)* environment.initialSpeed;
-        players[socket.id].cos =
-            ((players[socket.id].x - touchCords.x) / myHypot)* environment.initialSpeed;
+        player.tx = touchCords.x;
+        player.ty = touchCords.y;
+
+        player.sin =
+            ((player.y - touchCords.y) / myHypot) * environment.initialSpeed;
+        player.cos =
+            ((player.x - touchCords.x) / myHypot) * environment.initialSpeed;
     });
 });
 setInterval(() => {
@@ -98,20 +104,10 @@ setInterval(() => {
 function move() {
     for (let id in players) {
         let player = players[id];
-        player.x -= player.cos ;
-        player.y -= player.sin ;
-
-        if (player.x > WIDTH) {
-            player.x = 0;
-        }
-        if (player.x < 0) {
-            player.x = WIDTH;
-        }
-        if (player.y > HEIGHT) {
-            player.y = 0;
-        }
-        if (player.y < 0) {
-            player.y = HEIGHT;
+        let myHypot = Math.hypot(player.tx - player.x, player.ty - player.y);
+        if (myHypot > 1) {
+            player.x -= player.cos;
+            player.y -= player.sin;
         }
     }
 }
