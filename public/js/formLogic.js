@@ -9,7 +9,7 @@ export const getFormData = (players, socket) => {
     if (Object.keys(players).length === 1) {     
         dotsInput.value = 1000
         mapSizeInput.value = 2000
-        velocityInput.value = 1
+        velocityInput.value = 5
         FPSInput.value = 60
     }else {        
         form.style.display = "none"
