@@ -2,10 +2,11 @@ export const drawNavigateText = (
     navigateTextArea,   
     players,
     id,
+    playerName = "0",
     ping
 ) => {
     let player = players[id];
-    let name = id[0] + id[1] + id[2];
+    let name = playerName;
     let cords = {
         x: Math.floor(player.x),
         y: Math.floor(player.y),

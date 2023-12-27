@@ -1,7 +1,8 @@
 class Player {
     constructor(props) {
         this.id = props.id;
-        this.color = props.color;
+        this.name = '';
+        this.skin = props.skin;
         this.r = props.r;
         this.x = props.x;
         this.y = props.y;
@@ -13,11 +14,9 @@ class Player {
     }
 }
 
-function getRandomColor() {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    return `rgb(${r}, ${g}, ${b})`;
+function getRandomSkin() {
+    let skin = ['😀','😁','😅','🥹','😘','😋','😎','😔','😖','🥺','😮','😠','🥶','😱','🤗','🤔','😑','😬','🤢','🤤']
+    return skin[Math.floor(Math.random() * skin.length)]    
 }
 
 module.exports.getPlayer = (players, socket, initialSpeed, WIDTH, HEIGHT) => {
@@ -26,7 +25,7 @@ module.exports.getPlayer = (players, socket, initialSpeed, WIDTH, HEIGHT) => {
         r: 10,
         x: Math.floor(Math.random() * WIDTH),
         y: Math.floor(Math.random() * HEIGHT),
-        color: getRandomColor(),
+        skin: getRandomSkin(),
         velocity: initialSpeed,
     });
 };

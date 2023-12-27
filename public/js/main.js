@@ -1,4 +1,5 @@
 import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+import { drawClearRect } from "./draw/drawClearRect.js";
 import { drawBorder } from "./draw/drawBorder.js";
 import { drawPlayers } from "./draw/drawPlayers.js";
 import { drawToutchDot } from "./draw/drawToutchDot.js";
@@ -20,19 +21,27 @@ canvas.style.background = "silver";
 const ctx = canvas.getContext("2d");
 let ping = 0;
 let mapSize = 0;
+let backgroundImg = ""
 let clientDots = {};
 let translate = { x: WIDTH / 2, y: HEIGHT / 2 };
 let navigateTextArea = document.getElementById("NavigateText");
 
+let selectElement = document.getElementById("select");
+selectElement.addEventListener("change", function() {
+    const selectedValue = selectElement.value;
+    backgroundImg = selectedValue;
+  });
+
 socket.on("create player", ({ players, environment, dots }) => {
     mapSize = environment.mapSize;
+    backgroundImg = environment.background
     clientDots = dots;
     for (let id in players) {
         let player = players[id];
         player.velocity = environment.initialSpeed;
     }
     window.players = players;
-    getFormData(players, socket);
+    getFormData(players, dots, socket);
 });
 
 socket.on("pong", function (data) {
@@ -45,8 +54,8 @@ socket.on("main loop", (players) => {
     translate.y = HEIGHT / 2 - player.y;
     dotCollision(player, clientDots, socket, WIDTH, HEIGHT);
     playerCollision(player, players, socket)
-    drawNavigateText(navigateTextArea, players, socket.id, ping);
-    ctx.clearRect(0, 0, canvas.width, canvas.height); 
+    drawNavigateText(navigateTextArea, players,socket.id, player.name, ping);
+    drawClearRect(ctx, backgroundImg, WIDTH, HEIGHT, translate)
     drawBorder(ctx, mapSize, translate);
     drawPlayers(players, ctx ,translate)
     drawDots(ctx, clientDots, translate);

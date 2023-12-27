@@ -1,9 +1,12 @@
+let dotsSkins = ['🔪','✂️','🍰','🍒','🍎','🍌','🍓','🥕','🍺','🍩']
+
 class Dot {
-    constructor(id, x, y, r = 5) {
+    constructor(id, x, y, r = 10, skin) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.r = r;
+        this.skin = skin;
     }
 }
 let dotId = 0;
@@ -12,21 +15,12 @@ module.exports.createDots = (r, n, mapSize) => {
     for (let i = 0; i < n; i++) {
         let x = Math.floor(Math.random() * mapSize);
         let y = Math.floor(Math.random() * mapSize);
-
         let id = dotId++;
-        let dot = new Dot(id, x, y, r);
+        let skin = dotsSkins[id % 10]
+        let dot = new Dot(id, x, y, r, skin);
         dots[id] = dot;
     }
     return dots;
-}
-
-module.exports.dellPlayer = (slavePlayer, masterPlayer, mapSize) => {
-    slavePlayer.r = 10;
-    masterPlayer.r += 10;
-    slavePlayer.x = Math.floor(Math.random() * mapSize);
-    slavePlayer.y = Math.floor(Math.random() * mapSize);
-    slavePlayer.tx = slavePlayer.x;
-    slavePlayer.ty = slavePlayer.y;
 }
 
 module.exports.dellDot = (dots, id, player, mapSize, io) => {
