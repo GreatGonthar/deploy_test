@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
-        <meta charset="UTF-8" />       
+        <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>agario4.0</title>
 
@@ -12,37 +12,58 @@
     <body>
         <div class="wrapper">
             <div id="game">
-                <h6 id="NavigateText" class="navigate-text">загрузка карты...</h6>               
+                <h6 id="NavigateText" class="navigate-text">
+                    загрузка карты...
+                </h6>
                 <canvas id="canvas"></canvas>
             </div>
 
-            <div class="container" id="form">                
+            <div class="container" id="form">
                 <h2 class="settings">настройки</h2>
                 <p>задний фон</p>
                 <select id="select">
-                    <option selected value="Default_Deep_forest_photo_realism_green_trees_1.jpg">светлый лес</option>
-                    <option value="Default_Deep_forest_photo_realism_green_trees_3.jpg">темный лес</option>
-                    <option value="Leonardo_Diffusion_XL_factory_cyberpunk_city_photo_realism_1.jpg">стена завода</option>
-                    <option value="Leonardo_Diffusion_XL_factory_cyberpunk_city_photo_realism_2.jpg">паровая фабрика</option>
-                    <option value="RPG_40_microcosm_nano_robots_cyberpunk_2.jpg">труба в небе</option>
-                  </select>  
+                    <option
+                        selected
+                        value="Default_Deep_forest_photo_realism_green_trees_1.jpg"
+                    >
+                        светлый лес
+                    </option>
+                    <option
+                        value="Default_Deep_forest_photo_realism_green_trees_3.jpg"
+                    >
+                        темный лес
+                    </option>
+                    <option
+                        value="Leonardo_Diffusion_XL_factory_cyberpunk_city_photo_realism_1.jpg"
+                    >
+                        стена завода
+                    </option>
+                    <option
+                        value="Leonardo_Diffusion_XL_factory_cyberpunk_city_photo_realism_2.jpg"
+                    >
+                        паровая фабрика
+                    </option>
+                    <option
+                        value="RPG_40_microcosm_nano_robots_cyberpunk_2.jpg"
+                    >
+                        труба в небе
+                    </option>
+                </select>
                 <p>количество точек</p>
-                <input id="dots" type="number" placeholder="количество точек"/>
+                <input id="dots" type="number" placeholder="количество точек" />
                 <p>размер карты</p>
-                <input id="mapSize" type="number" placeholder="размер карты"/>
+                <input id="mapSize" type="number" placeholder="размер карты" />
                 <p>начальная скорость</p>
-                <input id="velocity" type="number" placeholder="скорость"/>    
-         
-                <p>FPS</p>
-                <input id="FPS" type="number" placeholder="FPS"/>
-				<button class="button" id="response">ok</button>
+                <input id="velocity" type="number" placeholder="скорость" />
+
+                <button class="button" id="response">ok</button>
             </div>
-            <div class="container" id="loader">                
+            <div class="container" id="loader">
                 <h2 class="loader">загрузка...</h2>
             </div>
-            <div class="container" id="player-name">                
+            <div class="container" id="player-name">
                 <p>имя игрока</p>
-                <input id="input-player-name" placeholder="имя игрока"/>
+                <input id="input-player-name" placeholder="имя игрока" />
                 <button class="button" id="start-button">ok</button>
             </div>
         </div>

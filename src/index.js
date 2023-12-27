@@ -26,7 +26,7 @@ let environment = {
     background: "Default_Deep_forest_photo_realism_green_trees_1.jpg",
     dotsNum: 0,
     mapSize: 0,
-    initialSpeed: 5,
+    initialSpeed: 3,
     FPS: 60,
 };
 
@@ -76,7 +76,7 @@ io.on("connection", (socket) => {
                 background: "Default_Deep_forest_photo_realism_green_trees_1.jpg",
                 dots: 0,
                 mapSize: 0,
-                initialSpeed: 5,
+                initialSpeed: 3,
                 FPS: 60,
             };
         }
@@ -85,4 +85,4 @@ io.on("connection", (socket) => {
 setInterval(() => {
     playerMove(players, environment.initialSpeed);
     io.sockets.emit("main loop", players);
-}, 1000 / 30);
+}, 1000 / 60);

@@ -5,7 +5,7 @@ const selectElement = document.getElementById("select");
 let dotsInput = document.getElementById("dots");
 let mapSizeInput = document.getElementById("mapSize");
 let velocityInput = document.getElementById("velocity");
-let FPSInput = document.getElementById("FPS");
+
 let loader = document.getElementById("loader");
 let playerName = document.getElementById("player-name");
 let inputPlayerName = document.getElementById("input-player-name");
@@ -18,15 +18,14 @@ export const getFormData = (players, dots, socket) => {
         loader.style.display = "none";
         dotsInput.value = 1000;
         mapSizeInput.value = 2000;
-        velocityInput.value = 5;
-        FPSInput.value = 60;
+        velocityInput.value = 3;
+
         responseButton.onclick = () => {
             let formData = {
                 background: selectElement.value,
                 dotsNum: +dotsInput.value,
                 mapSize: +mapSizeInput.value,
-                initialSpeed: +velocityInput.value,
-                FPSform: +FPSInput.value,
+                initialSpeed: +velocityInput.value               
             };
             socket.emit("form data", formData);
             form.style.display = "none";
@@ -37,10 +36,10 @@ export const getFormData = (players, dots, socket) => {
         form.style.display = "none";
         loader.style.display = "none";
         startButton.onclick = () => {
-            let str = inputPlayerName.value.toUpperCase()
+            let str = inputPlayerName.value.toUpperCase();
             if (str.length > 8) {
-                str =  str.substring(0, 6) + "...";
-              }
+                str = str.substring(0, 6) + "...";
+            }
             socket.emit("player name", str);
             playerName.style.display = "none";
         };
