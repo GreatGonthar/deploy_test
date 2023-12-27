@@ -1,6 +1,5 @@
-export const drawClearRect = (ctx, img, WIDTH, HEIGHT, translate) => {
-    const background = new Image();
-    background.src = `./js/draw/${img}`;
+export const drawClearRect = (ctx, background, WIDTH, HEIGHT, translate) => {
+
     let imgSize = 600
     let slowTranslate = {}
         slowTranslate.x = translate.x/2

@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
             Object.keys(players).length
         }`
     );
-    getPlayer(players, socket, environment.initialSpeed, WIDTH, HEIGHT);   
+    getPlayer(players, socket, environment.initialSpeed, WIDTH, HEIGHT);
     socket.emit("create player", { players, environment, dots });
     socket.on("ping", function (data) {
         socket.emit("pong", data);
@@ -52,8 +52,8 @@ io.on("connection", (socket) => {
         players[socket.id].velocity = environment.initialSpeed;
         io.sockets.emit("create player", { players, environment, dots });
     });
-    socket.on("player name", data => {
-        players[socket.id].name = data
+    socket.on("player name", (data) => {
+        players[socket.id].name = data;
     });
     socket.on("dellDot", (id) => {
         dellDot(dots, id, players[socket.id], environment.mapSize, io);
@@ -61,7 +61,9 @@ io.on("connection", (socket) => {
     socket.on("dellPlayer", ({ id, myPlayerId }) => {
         dellPlayer(players[id], players[myPlayerId], environment.mapSize);
     });
-    socket.on("touchCords", (touchCords) => {getPlayerSinCos(touchCords, players[socket.id])});
+    socket.on("touchCords", (touchCords) => {
+        getPlayerSinCos(touchCords, players[socket.id]);
+    });
     socket.on("disconnect", () => {
         delete players[socket.id];
         console.log(
@@ -73,7 +75,8 @@ io.on("connection", (socket) => {
             dots = {};
             dotId = 0;
             environment = {
-                background: "Default_Deep_forest_photo_realism_green_trees_1.jpg",
+                background:
+                    "Default_Deep_forest_photo_realism_green_trees_1.jpg",
                 dots: 0,
                 mapSize: 0,
                 initialSpeed: 3,
