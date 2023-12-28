@@ -56,8 +56,8 @@ io.on("connection", (socket) => {
     socket.on("dellDot", (id) => {
         dellDot(dots, id, players[socket.id], state.mapSize, io);
     });
-    socket.on("dellPlayer", ({ id, myPlayerId }) => {
-        dellPlayer(players[id], players[myPlayerId], state.mapSize);
+    socket.on("dellPlayer", ({ myPlayerId, otherPlayerId }) => {
+        dellPlayer(players[myPlayerId], players[otherPlayerId], state.mapSize);
     });
     socket.on("touchCords", (touchCords) => {
         getPlayerSinCos(touchCords, players[socket.id]);
