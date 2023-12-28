@@ -27,12 +27,12 @@ module.exports.dellDot = (dots, id, player, mapSize, io) => {
     if (+id || +id === 0) {
         dots[id].x = Math.floor(Math.random() * mapSize);
         dots[id].y = Math.floor(Math.random() * mapSize);
-        io.emit("newCordsDot", dots[id]);
         if (+id % 10 > 1 && player.r < 250) {
             player.r += 1;
         } else {
             player.r -= 2;
         }
+        io.sockets.emit("newCordsDot", dots[id]);
     }
 }
 

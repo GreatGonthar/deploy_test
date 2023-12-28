@@ -22,12 +22,11 @@ const dellDot = require("./dot").dellDot;
 const port = process.env.PORT || 3000;
 const WIDTH = 340;
 const HEIGHT = 600;
-let environment = {
-    background: "Default_Deep_forest_photo_realism_green_trees_1.jpg",
+let state = {
+    background: "Default_Deep_forest_photo_realism_green_trees_1.jpg",   
     dotsNum: 0,
     mapSize: 0,
-    initialSpeed: 3,
-    FPS: 60,
+    initialSpeed: 3,    
 };
 
 httpServer.listen(port, () => console.log(`Server listening on port ${port}`));
@@ -41,25 +40,24 @@ io.on("connection", (socket) => {
             Object.keys(players).length
         }`
     );
-    getPlayer(players, socket, environment.initialSpeed, WIDTH, HEIGHT);
-    socket.emit("create player", { players, environment, dots });
+    getPlayer(players, socket, state.initialSpeed, WIDTH, HEIGHT);
+    socket.emit("create player", { players, state, dots });
     socket.on("ping", function (data) {
         socket.emit("pong", data);
     });
     socket.on("form data", (formData) => {
-        environment = formData;
-        dots = createDots(8, environment.dotsNum, environment.mapSize);
-        players[socket.id].velocity = environment.initialSpeed;
-        io.sockets.emit("create player", { players, environment, dots });
+        state = formData;
+        dots = createDots(8, state.dotsNum, state.mapSize);      
+        io.sockets.emit("create player", { players, state, dots });
     });
     socket.on("player name", (data) => {
         players[socket.id].name = data;
     });
     socket.on("dellDot", (id) => {
-        dellDot(dots, id, players[socket.id], environment.mapSize, io);
+        dellDot(dots, id, players[socket.id], state.mapSize, io);
     });
     socket.on("dellPlayer", ({ id, myPlayerId }) => {
-        dellPlayer(players[id], players[myPlayerId], environment.mapSize);
+        dellPlayer(players[id], players[myPlayerId], state.mapSize);
     });
     socket.on("touchCords", (touchCords) => {
         getPlayerSinCos(touchCords, players[socket.id]);
@@ -74,18 +72,16 @@ io.on("connection", (socket) => {
         if (Object.keys(players).length === 0) {
             dots = {};
             dotId = 0;
-            environment = {
-                background:
-                    "Default_Deep_forest_photo_realism_green_trees_1.jpg",
-                dots: 0,
+            state = {
+                background: "Default_Deep_forest_photo_realism_green_trees_1.jpg",   
+                dotsNum: 0,
                 mapSize: 0,
-                initialSpeed: 3,
-                FPS: 60,
+                initialSpeed: 3,    
             };
         }
     });
 });
 setInterval(() => {
-    playerMove(players, environment.initialSpeed);
+    playerMove(players);
     io.sockets.emit("main loop", players);
-}, 1000 / 60);
+}, 1000 / 30);

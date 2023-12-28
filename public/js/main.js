@@ -27,24 +27,23 @@ let clientDots = {};
 let translate = { x: WIDTH / 2, y: HEIGHT / 2 };
 let navigateTextArea = document.getElementById("NavigateText");
 
-let selectElement = document.getElementById("select");
-selectElement.addEventListener("change", function() {
-    const selectedValue = selectElement.value;
-    backgroundImg = selectedValue;
-    background.src = `./js/draw/${backgroundImg}`
-  });
+// let selectElement = document.getElementById("select");
+// selectElement.addEventListener("change", function() {
+//     const selectedValue = selectElement.value;
+//     backgroundImg = selectedValue;
+//     background.src = `./js/draw/${backgroundImg}`
+//   });
 
-socket.on("create player", ({ players, environment, dots }) => {
-    mapSize = environment.mapSize;
-    backgroundImg = environment.background
-    background.src = `./js/draw/${backgroundImg}`;
+socket.on("create player", ({ players, state, dots }) => {
+    mapSize = state.mapSize;
+    backgroundImg = state.background
+    // background.src = `./js/draw/${backgroundImg}`;
     
     clientDots = dots;
     for (let id in players) {
         let player = players[id];
-        player.velocity = environment.initialSpeed;
-    }
-    window.players = players;
+        player.velocity = state.initialSpeed;
+    }   
     getFormData(players, dots, socket);
 });
 
@@ -59,7 +58,8 @@ socket.on("main loop", (players) => {
     dotCollision(player, clientDots, socket, WIDTH, HEIGHT);
     playerCollision(player, players, socket)
     drawNavigateText(navigateTextArea, players,socket.id, player.name, ping);
-    drawClearRect(ctx, background, WIDTH, HEIGHT, translate)
+    // drawClearRect(ctx, background, WIDTH, HEIGHT, translate)
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
     drawBorder(ctx, mapSize, translate);
     drawPlayers(players, ctx ,translate)
     drawDots(ctx, clientDots, translate);

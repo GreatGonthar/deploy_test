@@ -39,14 +39,14 @@ module.exports.dellPlayer = (slavePlayer, masterPlayer, mapSize) => {
     slavePlayer.ty = slavePlayer.y;
 }
 
-module.exports.playerMove = (players, initialSpeed)=>{
+module.exports.playerMove = (players)=>{
     for (let id in players) {
         let player = players[id];
         let myHypot = Math.hypot(player.tx - player.x, player.ty - player.y);
-        player.velocity = (initialSpeed / player.r) * 10;       
+        let speed = (player.velocity / player.r) * 10;       
         if (myHypot > player.velocity) {
-            player.x -= player.cos * player.velocity;
-            player.y -= player.sin * player.velocity;
+            player.x -= player.cos * speed;
+            player.y -= player.sin * speed;
         }
     }
 }
