@@ -37,6 +37,7 @@ module.exports.dellPlayer = (masterPlayer, slavePlayer, mapSize) => {
     masterPlayer.r = masterPlayer.r + 10;
     slavePlayer.tx = slavePlayer.x;
     slavePlayer.ty = slavePlayer.y;
+    console.log(masterPlayer.r, slavePlayer.r)
 }
 
 module.exports.playerMove = (players)=>{
