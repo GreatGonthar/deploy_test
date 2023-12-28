@@ -34,7 +34,7 @@ module.exports.dellPlayer = (masterPlayer, slavePlayer, mapSize) => {
     slavePlayer.x = Math.floor(Math.random() * mapSize);
     slavePlayer.y = Math.floor(Math.random() * mapSize);
     slavePlayer.r = 10;
-    masterPlayer.r += 10;
+    masterPlayer.r = masterPlayer.r + 10;
     slavePlayer.tx = slavePlayer.x;
     slavePlayer.ty = slavePlayer.y;
 }
