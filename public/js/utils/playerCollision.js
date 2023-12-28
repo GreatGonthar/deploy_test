@@ -14,11 +14,9 @@ export const playerCollision = (myPlayer, players, socket) => {
        
         // otherPlayer.r = 10;
         // myPlayer.r += 10 
-        otherPlayer.x = myPlayer.x + myPlayer.r*4
-        otherPlayer.y = myPlayer.y + myPlayer.r*4
-        let myPlayerId = myPlayer.id 
-        let otherPlayerId = otherPlayer.id      
-        socket.emit("dellPlayer", {myPlayerId, otherPlayerId});
+        otherPlayer.x = Math.random() * 1000 * 2;
+        otherPlayer.y = Math.random() * 1000 * 2; 
+        socket.emit("dellPlayer", {myPlayer, otherPlayer});
     }
 }
 };
