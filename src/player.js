@@ -31,6 +31,7 @@ module.exports.getPlayer = (players, socket, initialSpeed, WIDTH, HEIGHT) => {
 };
 
 module.exports.dellPlayer = (ID, players, socket, newR) => { 
+    players[ID].r = 10
     players[ID].x = Math.random() * 600 * 2;
     players[ID].y = Math.random() * 600 * 2;
     players[ID].tx = players[ID].x
