@@ -30,13 +30,14 @@ module.exports.getPlayer = (players, socket, initialSpeed, WIDTH, HEIGHT) => {
     });
 };
 
-module.exports.dellPlayer = (masterPlayer, slavePlayer, mapSize) => {   
-    slavePlayer.x = Math.floor(Math.random() * mapSize);
-    slavePlayer.y = Math.floor(Math.random() * mapSize);
-    slavePlayer.r = 10;
-    masterPlayer.r = masterPlayer.r + 10;
-    slavePlayer.tx = slavePlayer.x;
-    slavePlayer.ty = slavePlayer.y;
+module.exports.dellPlayer = (ID, players, socket) => { 
+    players[ID].x = Math.random() * 600 * 2;
+    players[ID].y = Math.random() * 600 * 2;
+    players[ID].tx = players[ID].x
+    players[ID].ty = players[ID].y
+    players[socket.id].r += 10
+    console.log("collision", ID)
+    socket.emit("main loop", players)
 }
 
 module.exports.playerMove = (players)=>{
