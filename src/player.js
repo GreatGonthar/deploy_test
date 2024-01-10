@@ -30,12 +30,13 @@ module.exports.getPlayer = (players, socket, initialSpeed, WIDTH, HEIGHT) => {
     });
 };
 
-module.exports.dellPlayer = (ID, players, socket) => { 
+module.exports.dellPlayer = (ID, players, socket, newR) => { 
+    players[ID].r = 10
     players[ID].x = Math.random() * 600 * 2;
     players[ID].y = Math.random() * 600 * 2;
     players[ID].tx = players[ID].x
     players[ID].ty = players[ID].y
-    players[socket.id].r += 10
+    players[socket.id].r = newR
     console.log("collision", ID)
     socket.emit("main loop", players)
 }

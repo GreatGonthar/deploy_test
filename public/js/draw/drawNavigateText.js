@@ -11,6 +11,7 @@ export const drawNavigateText = (
         x: Math.floor(player.x),
         y: Math.floor(player.y),
     };
-    navigateTextArea.innerText = `name: ${name}, players: ${Object.keys(players).length}, velocity: ${player.velocity.toFixed(2)}, 
+    let speed = ((player.velocity / player.r) * 10).toFixed(2);       
+    navigateTextArea.innerText = `name: ${name}, players: ${Object.keys(players).length}, speed: ${speed}, 
     r: ${player.r.toFixed(2)}, ping: ${ping}, x: ${cords.x}, y: ${cords.y}`;   
 };
